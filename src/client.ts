@@ -9,6 +9,14 @@
 
 import { FloopError } from "./errors.js";
 import { CURRENT_VERSION } from "./version.js";
+import { Projects } from "./resources/projects.js";
+import { Secrets } from "./resources/secrets.js";
+import { ApiKeys } from "./resources/apiKeys.js";
+import { Library } from "./resources/library.js";
+import { Subdomains } from "./resources/subdomains.js";
+import { Uploads } from "./resources/uploads.js";
+import { Usage } from "./resources/usage.js";
+import { User } from "./resources/user.js";
 
 const DEFAULT_BASE_URL = "https://www.floopfloop.com";
 const DEFAULT_TIMEOUT_MS = 30_000;
@@ -46,6 +54,15 @@ export class FloopClient {
   private readonly timeoutMs: number;
   private readonly userAgentSuffix?: string;
 
+  readonly projects: Projects;
+  readonly secrets: Secrets;
+  readonly apiKeys: ApiKeys;
+  readonly library: Library;
+  readonly subdomains: Subdomains;
+  readonly uploads: Uploads;
+  readonly usage: Usage;
+  readonly user: User;
+
   constructor(opts: FloopClientOptions) {
     if (!opts?.apiKey) {
       throw new TypeError("FloopClient: `apiKey` is required");
@@ -56,6 +73,15 @@ export class FloopClient {
     this.timeoutMs = opts.timeoutMs ?? DEFAULT_TIMEOUT_MS;
     this.pollIntervalMs = opts.pollIntervalMs ?? DEFAULT_POLL_INTERVAL_MS;
     this.userAgentSuffix = opts.userAgent;
+
+    this.projects = new Projects(this);
+    this.secrets = new Secrets(this);
+    this.apiKeys = new ApiKeys(this);
+    this.library = new Library(this);
+    this.subdomains = new Subdomains(this);
+    this.uploads = new Uploads(this);
+    this.usage = new Usage(this);
+    this.user = new User(this);
   }
 
   /**

@@ -81,7 +81,9 @@ export class Uploads {
     const put = await fetchImpl(presign.uploadUrl, {
       method: "PUT",
       headers: { "Content-Type": fileType },
-      body: input.file as BodyInit,
+      // Buffer / Uint8Array / Blob are all valid fetch body types at runtime.
+      // The lib-dom BodyInit isn't pulled in by our tsconfig, so cast through unknown.
+      body: input.file as unknown as string,
     });
     if (!put.ok) {
       throw new FloopError({
