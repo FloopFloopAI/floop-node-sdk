@@ -71,16 +71,16 @@ function sleep(ms: number, signal?: AbortSignal): Promise<void> {
       );
       return;
     }
-    const t = setTimeout(() => resolve(), ms);
-    signal?.addEventListener(
-      "abort",
-      () => {
-        clearTimeout(t);
-        reject(
-          new FloopError({ code: "NETWORK_ERROR", message: "Poll aborted", status: 0 }),
-        );
-      },
-      { once: true },
-    );
+    const onAbort = () => {
+      clearTimeout(t);
+      reject(
+        new FloopError({ code: "NETWORK_ERROR", message: "Poll aborted", status: 0 }),
+      );
+    };
+    const t = setTimeout(() => {
+      signal?.removeEventListener("abort", onAbort);
+      resolve();
+    }, ms);
+    signal?.addEventListener("abort", onAbort, { once: true });
   });
 }

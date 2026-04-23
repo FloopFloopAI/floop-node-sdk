@@ -103,4 +103,51 @@ describe("FloopClient transport", () => {
     await client.__request("GET", "/api/v1/ping");
     expect(mock.requests[0]!.url).toBe("https://staging.floopfloop.com/api/v1/ping");
   });
+
+  it("distinguishes user-initiated abort from timeout", async () => {
+    // Fetch that rejects with AbortError when the signal is aborted, so the
+    // client sees the same failure shape real fetch produces.
+    const fetchImpl: typeof fetch = async (_input, init) => {
+      if (init?.signal?.aborted) {
+        const err = new Error("aborted");
+        err.name = "AbortError";
+        throw err;
+      }
+      throw new Error("mock fetch: expected signal to be aborted");
+    };
+    const ac = new AbortController();
+    ac.abort();
+    const client = new FloopClient({ apiKey: "flp_x", fetch: fetchImpl });
+
+    await expect(
+      client.__request("GET", "/x", undefined, { signal: ac.signal }),
+    ).rejects.toMatchObject({
+      name: "FloopError",
+      code: "NETWORK_ERROR",
+      message: "Request aborted",
+    });
+  });
+
+  it("parses retry-after when the server sends an HTTP-date", async () => {
+    const mock = createMockFetch();
+    const future = new Date(Date.now() + 3_000);
+    mock.enqueue({
+      status: 429,
+      body: { error: { code: "RATE_LIMITED", message: "slow down" } },
+      headers: { "retry-after": future.toUTCString() },
+    });
+    const client = new FloopClient({ apiKey: "flp_x", fetch: mock.fetch });
+
+    try {
+      await client.__request("GET", "/x");
+      throw new Error("should have thrown");
+    } catch (err) {
+      expect(err).toBeInstanceOf(FloopError);
+      const fe = err as FloopError;
+      expect(fe.code).toBe("RATE_LIMITED");
+      // UTCString strips milliseconds; allow generous bounds.
+      expect(fe.retryAfterMs).toBeGreaterThanOrEqual(1_000);
+      expect(fe.retryAfterMs).toBeLessThanOrEqual(4_000);
+    }
+  });
 });

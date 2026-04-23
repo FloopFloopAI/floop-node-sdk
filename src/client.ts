@@ -122,6 +122,13 @@ export class FloopClient {
     } catch (err) {
       clearTimeout(timer);
       const aborted = (err as { name?: string }).name === "AbortError";
+      if (aborted && options.signal?.aborted) {
+        throw new FloopError({
+          code: "NETWORK_ERROR",
+          message: "Request aborted",
+          status: 0,
+        });
+      }
       throw new FloopError({
         code: aborted ? "TIMEOUT" : "NETWORK_ERROR",
         message: aborted
@@ -187,6 +194,11 @@ function defaultCodeForStatus(status: number): string {
 function parseRetryAfter(header: string): number | undefined {
   const n = Number(header);
   if (Number.isFinite(n) && n >= 0) return Math.round(n * 1000);
+  const date = Date.parse(header);
+  if (Number.isFinite(date)) {
+    const delta = date - Date.now();
+    return delta > 0 ? delta : 0;
+  }
   return undefined;
 }
 
