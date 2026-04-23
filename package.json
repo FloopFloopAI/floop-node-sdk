@@ -1,0 +1,38 @@
+{
+  "name": "@floopfloop/sdk",
+  "version": "0.1.0-alpha.1",
+  "description": "Official Node.js SDK for the FloopFloop API",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": ["dist", "README.md", "LICENSE", "CHANGELOG.md"],
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "prepublishOnly": "npm run typecheck && npm test && npm run build"
+  },
+  "keywords": ["floopfloop", "sdk", "vibe-coding", "api-client"],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FloopFloopAI/floop-node-sdk.git"
+  },
+  "homepage": "https://www.floopfloop.com",
+  "bugs": "https://github.com/FloopFloopAI/floop-node-sdk/issues",
+  "engines": { "node": ">=20" },
+  "devDependencies": {
+    "@types/node": "^20",
+    "tsup": "^8",
+    "typescript": "^5",
+    "vitest": "^2"
+  }
+}
