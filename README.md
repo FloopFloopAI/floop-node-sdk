@@ -1,5 +1,12 @@
 # @floopfloop/sdk
 
+[![npm version](https://img.shields.io/npm/v/@floopfloop/sdk?logo=npm)](https://www.npmjs.com/package/@floopfloop/sdk)
+[![npm downloads](https://img.shields.io/npm/dm/@floopfloop/sdk?logo=npm)](https://www.npmjs.com/package/@floopfloop/sdk)
+[![Node.js Version](https://img.shields.io/node/v/@floopfloop/sdk?logo=node.js&logoColor=white)](https://nodejs.org)
+[![CI](https://img.shields.io/github/actions/workflow/status/FloopFloopAI/floop-node-sdk/ci.yml?branch=main&logo=github&label=ci)](https://github.com/FloopFloopAI/floop-node-sdk/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/npm/l/@floopfloop/sdk)](./LICENSE)
+[![Types: TypeScript](https://img.shields.io/badge/types-TypeScript-blue?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+
 Official Node.js SDK for the [FloopFloop](https://www.floopfloop.com) API.
 Build a project, chat with it, manage secrets and API keys from any Node
 20+ codebase.
