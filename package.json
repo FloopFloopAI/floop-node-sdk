@@ -30,9 +30,9 @@
   "bugs": "https://github.com/FloopFloopAI/floop-node-sdk/issues",
   "engines": { "node": ">=20" },
   "devDependencies": {
-    "@types/node": "^20",
+    "@types/node": "^25",
     "tsup": "^8",
-    "typescript": "^5",
-    "vitest": "^2"
+    "typescript": "^6",
+    "vitest": "^4"
   }
 }
