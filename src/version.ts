@@ -5,4 +5,4 @@
  * for why we do NOT read `process.env.npm_package_version` — compiled/bundled
  * consumers don't have it.
  */
-export const CURRENT_VERSION = "0.1.0-alpha.1";
+export const CURRENT_VERSION = "0.1.0-alpha.2";
