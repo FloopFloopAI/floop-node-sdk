@@ -6,6 +6,26 @@ This SDK follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.1.0-alpha.3] — 2026-04-28
+
+### Added
+- **`floop.subscriptions.current()`** — new resource accessor that returns the
+  authenticated user's plan + credit-balance snapshot. Wraps `GET /api/v1/subscriptions/current`.
+  Distinct from `usage.summary()` — `usage.summary()` covers
+  current-period consumption (credits remaining, builds used, storage), while
+  `subscriptions.current()` returns the plan tier itself (price, billing
+  period, cancel state). They overlap on `monthlyCredits` and `maxProjects`
+  but serve different audiences ("am I about to hit my limits?" vs "what
+  plan is this user on, and when does it renew?").
+- New types `CurrentSubscription`, `SubscriptionPlan`, `SubscriptionCredits`
+  exported from the package root. Both `subscription` and `credits` on
+  `CurrentSubscription` are nullable — a user may exist without a
+  subscription (mid-signup, cancelled with no grace credits).
+
+### Tests
+- Two new cases in `test/usage-user.test.ts` covering the populated-response
+  shape and the both-null edge case.
+
 ## [0.1.0-alpha.2] — 2026-04-24
 
 ### Fixed

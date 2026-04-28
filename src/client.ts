@@ -16,6 +16,7 @@ import { Library } from "./resources/library.js";
 import { Subdomains } from "./resources/subdomains.js";
 import { Uploads } from "./resources/uploads.js";
 import { Usage } from "./resources/usage.js";
+import { Subscriptions } from "./resources/subscriptions.js";
 import { User } from "./resources/user.js";
 
 const DEFAULT_BASE_URL = "https://www.floopfloop.com";
@@ -61,6 +62,7 @@ export class FloopClient {
   readonly subdomains: Subdomains;
   readonly uploads: Uploads;
   readonly usage: Usage;
+  readonly subscriptions: Subscriptions;
   readonly user: User;
 
   constructor(opts: FloopClientOptions) {
@@ -81,6 +83,7 @@ export class FloopClient {
     this.subdomains = new Subdomains(this);
     this.uploads = new Uploads(this);
     this.usage = new Usage(this);
+    this.subscriptions = new Subscriptions(this);
     this.user = new User(this);
   }
 

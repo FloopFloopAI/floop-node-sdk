@@ -1,6 +1,6 @@
 {
   "name": "@floopfloop/sdk",
-  "version": "0.1.0-alpha.2",
+  "version": "0.1.0-alpha.3",
   "description": "Official Node.js SDK for the FloopFloop API",
   "type": "module",
   "main": "./dist/index.js",
