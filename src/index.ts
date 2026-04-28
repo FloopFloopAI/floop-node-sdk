@@ -32,6 +32,11 @@ export type {
   SubdomainSuggestResult,
 } from "./resources/subdomains.js";
 export type { UsageSummary } from "./resources/usage.js";
+export type {
+  CurrentSubscription,
+  SubscriptionPlan,
+  SubscriptionCredits,
+} from "./resources/subscriptions.js";
 export type { MeUser, MeResult } from "./resources/user.js";
 export type {
   UploadedAttachment,
