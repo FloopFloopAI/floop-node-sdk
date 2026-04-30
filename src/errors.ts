@@ -18,6 +18,8 @@ export type KnownFloopErrorCode =
   | "TIMEOUT"
   | "BUILD_FAILED"
   | "BUILD_CANCELLED"
+  | "INSUFFICIENT_CREDITS"
+  | "PAYMENT_FAILED"
   | "UNKNOWN";
 
 export type FloopErrorCode = KnownFloopErrorCode | (string & {});
